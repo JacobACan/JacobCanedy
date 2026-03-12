@@ -1,26 +1,175 @@
 @import "tailwindcss";
 
+/* Biophilic Design System - Forest Biome */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Forest - Earthy Tones Palette */
+  --bio-primary: #2D5016;
+  --bio-secondary: #8B6F47;
+  --bio-accent: #D4A574;
+  --bio-background: #F5F1E8;
+  --bio-dark: #1A1410;
+  --bio-light-accent: #E8DCC8;
+  --bio-highlight: #C4A57B;
+  --bio-canopy: #1F3A0F;
+  --bio-trunk: #654832;
+  --bio-moss: #4A5D2A;
+  --bio-sunlight: #F2E6B3;
+  --bio-shadow: rgba(26, 20, 16, 0.4);
+  --bio-highlight-glow: rgba(232, 220, 200, 0.8);
+  
+  /* Realistic shadows with light source */
+  --bio-shadow-soft: 2px 4px 12px rgba(26, 20, 16, 0.15);
+  --bio-shadow-medium: 4px 8px 24px rgba(26, 20, 16, 0.25);
+  --bio-shadow-strong: 8px 16px 48px rgba(26, 20, 16, 0.35);
+  --bio-shadow-inner: inset 2px 2px 8px rgba(26, 20, 16, 0.2);
+  --bio-shadow-glow: 0 0 20px rgba(232, 220, 200, 0.6);
+  
+  /* Legacy support */
+  --background: var(--bio-background);
+  --foreground: var(--bio-dark);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-background: var(--bio-background);
+  --color-foreground: var(--bio-dark);
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+  --font-serif: var(--font-playfair), serif;
 }
 
+/* Disable dark mode for biophilic design */
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    /* Keep light forest theme even in dark mode */
+    --background: var(--bio-background);
+    --foreground: var(--bio-dark);
   }
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bio-background);
+  color: var(--bio-dark);
+  font-family: var(--font-inter), system-ui, sans-serif;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
+
+/* Biophilic base styles */
+* {
+  box-sizing: border-box;
+}
+
+/* Organic scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bio-light-accent);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--bio-secondary);
+  border-radius: 4px;
+  transition: background 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--bio-primary);
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Biophilic animation keyframes */
+@keyframes fallingLeaves {
+  0% {
+    transform: translateY(-100vh) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+@keyframes birdsFlying {
+  0% {
+    transform: translateX(-100px) translateY(0px);
+  }
+  25% {
+    transform: translateX(25vw) translateY(-20px);
+  }
+  50% {
+    transform: translateX(50vw) translateY(-10px);
+  }
+  75% {
+    transform: translateX(75vw) translateY(-30px);
+  }
+  100% {
+    transform: translateX(calc(100vw + 100px)) translateY(-15px);
+  }
+}
+
+@keyframes lightRays {
+  0%, 100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+@keyframes branchRustle {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(1deg);
+  }
+  75% {
+    transform: rotate(-1deg);
+  }
+}
+
+@keyframes gentleFloat {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Utility classes for biophilic design */
+.bio-shadow-soft { box-shadow: var(--bio-shadow-soft); }
+.bio-shadow-medium { box-shadow: var(--bio-shadow-medium); }
+.bio-shadow-strong { box-shadow: var(--bio-shadow-strong); }
+.bio-shadow-inner { box-shadow: var(--bio-shadow-inner); }
+.bio-shadow-glow { box-shadow: var(--bio-shadow-glow); }
+
+.bio-text-primary { color: var(--bio-primary); }
+.bio-text-secondary { color: var(--bio-secondary); }
+.bio-text-accent { color: var(--bio-accent); }
+.bio-text-dark { color: var(--bio-dark); }
+
+.bio-bg-primary { background-color: var(--bio-primary); }
+.bio-bg-secondary { background-color: var(--bio-secondary); }
+.bio-bg-accent { background-color: var(--bio-accent); }
+.bio-bg-background { background-color: var(--bio-background); }
+.bio-bg-light-accent { background-color: var(--bio-light-accent); }
