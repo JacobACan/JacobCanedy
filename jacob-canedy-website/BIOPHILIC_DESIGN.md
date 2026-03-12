@@ -1,8 +1,12 @@
-# Biophilic Design System - Forest Biome
+# Multi-Biome Biophilic Design System
 
 ## Overview
 
-This website has been redesigned using biophilic design principles to create a nature-inspired, immersive user experience. The design follows the **Forest biome** aesthetic with earthy tones, organic shapes, and natural animations.
+This website has been completely redesigned using advanced biophilic design principles to create an immersive, nature-inspired journey through multiple biomes. Each section of the website represents a different natural environment with its own unique visual identity, color palette, and animated background scene.
+
+## 🌍 Multi-Biome Experience
+
+The website now features **5 distinct biomes**, each carefully chosen to reflect the content and purpose of its section:
 
 ## Design Philosophy
 
@@ -17,36 +21,122 @@ The biophilic design system follows these core principles in priority order:
 7. **Information Richness** - Complex yet non-cluttered environments
 8. **Smooth Transitions** - Natural motion and easing for all animations
 
-## Forest Biome Specifications
+## 🌲 1. Forest Biome - About Section
 
-### Characteristics
-- **Primary Elements**: Ancient trees, canopy, undergrowth, dappled sunlight
-- **Lifeforms**: Birds, leaves, natural growth patterns
-- **Lighting Style**: Filtered sunlight through canopy
-- **Parallax Layers**: 5 (background to foreground)
-- **Mood**: Grounded, warm, ancient, meditative
+**Theme**: Personal growth, deep roots, organic development
+**Scene**: Ancient forest with towering trees, dappled sunlight, falling leaves, gentle wildlife
+
+### Visual Elements
+- **Trees**: Silhouetted ancient trees swaying in the breeze
+- **Canopy**: Layered tree tops with filtered light
+- **Falling Leaves**: Continuous autumn leaves with natural physics
+- **Light Rays**: Dappled sunlight filtering through branches
+- **Forest Floor**: Misty ground layer with organic textures
 
 ### Color Palette - Forest Earthy Tones
-
 ```css
-/* Primary Colors */
 --bio-primary: #2D5016      /* Deep forest green */
 --bio-secondary: #8B6F47    /* Tree bark brown */
 --bio-accent: #D4A574       /* Warm earth tone */
 --bio-background: #F5F1E8   /* Light parchment */
-
-/* Extended Palette */
---bio-dark: #1A1410         /* Rich dark brown */
---bio-light-accent: #E8DCC8 /* Soft cream */
---bio-highlight: #C4A57B    /* Golden highlight */
 --bio-canopy: #1F3A0F       /* Dark canopy green */
---bio-trunk: #654832        /* Tree trunk */
 --bio-moss: #4A5D2A         /* Moss green */
 --bio-sunlight: #F2E6B3     /* Filtered sunlight */
+```
 
-/* Shadows & Effects */
---bio-shadow: rgba(26, 20, 16, 0.4)
---bio-highlight-glow: rgba(232, 220, 200, 0.8)
+## ☁️ 2. Sky Biome - Education Section
+
+**Theme**: Elevated thinking, open horizons, reaching higher knowledge
+**Scene**: Expansive sky with floating clouds, distant mountains, soaring birds
+
+### Visual Elements
+- **Sky Gradient**: Multi-layer atmospheric perspective
+- **Floating Clouds**: Realistic cloud formations drifting across
+- **Mountain Silhouettes**: Layered distant peaks
+- **Flying Birds**: V-formation birds with wing animations
+- **Wind Particles**: Gentle floating elements
+
+### Color Palette - Sky Open Horizons
+```css
+--bio-primary: #5B8DBE      /* Sky blue */
+--bio-secondary: #8FA8D4    /* Cloud blue */
+--bio-accent: #E0B997       /* Sunset gold */
+--bio-background: #F5F8FB   /* Light sky */
+--bio-clouds: #FFFFFF       /* Pure white clouds */
+--bio-horizon: #B8C5D1      /* Distant mountains */
+--bio-sunlight: #F5E6A3     /* Golden light */
+```
+
+## 🌊 3. Sea Biome - Lessons Section
+
+**Theme**: Flow of knowledge, musical currents, fluid learning
+**Scene**: Underwater coral garden with flowing currents, bioluminescent life
+
+### Visual Elements
+- **Ocean Gradient**: Deep blue underwater atmosphere
+- **Light Caustics**: Shimmering underwater light patterns
+- **Coral Formations**: Swaying coral gardens on the sea floor
+- **Kelp Forest**: Flowing seaweed moving with currents
+- **Rising Bubbles**: Continuous bubble streams
+- **School of Fish**: Coordinated fish movements
+- **Bioluminescence**: Glowing particles and organisms
+
+### Color Palette - Sea Flowing Depths
+```css
+--bio-primary: #0E5A6D      /* Deep ocean */
+--bio-secondary: #1B8B8B    /* Teal current */
+--bio-accent: #4DB8A8       /* Coral green */
+--bio-background: #E0F2F1   /* Light aqua */
+--bio-coral: #FF6B6B        /* Coral pink */
+--bio-kelp: #2E7D32         /* Seaweed green */
+--bio-bioluminescent: #00E5FF /* Electric blue */
+```
+
+## 🔮 4. Underground Biome - Tools Section
+
+**Theme**: Deep technical work, hidden gems, crafted precision
+**Scene**: Crystal caverns with glowing minerals, underground streams
+
+### Visual Elements
+- **Cave Atmosphere**: Dark, mysterious underground environment
+- **Glowing Crystals**: Pulsing crystal formations throughout
+- **Rock Formations**: Organic cave structures and stalactites
+- **Underground Stream**: Flowing water at the bottom
+- **Floating Spores**: Bioluminescent particles rising
+- **Mineral Veins**: Glowing ore deposits in rock walls
+
+### Color Palette - Underground Crystal Depths
+```css
+--bio-primary: #3A3A45      /* Deep cave */
+--bio-secondary: #6B5B7F    /* Purple stone */
+--bio-accent: #A8856D       /* Mineral brown */
+--bio-background: #E5E3EB   /* Light cave */
+--bio-crystal: #00D9A3      /* Glowing crystal */
+--bio-mineral: #8E44AD      /* Purple mineral */
+--bio-stone: #5D4E75        /* Cave stone */
+```
+
+## 🌊🌲 5. Hybrid Biome - Hobbies Section
+
+**Theme**: Creative flow meeting grounded passion (music + fitness)
+**Scene**: Forest stream meeting the sea, where land and water harmonize
+
+### Visual Elements
+- **Split Environment**: Forest on left, water on right
+- **Flowing Stream**: Central water feature connecting both sides
+- **Forest Elements**: Trees and organic growth on land side
+- **Water Elements**: Bubbles and aquatic life on water side
+- **Connecting Particles**: Glowing elements bridging both biomes
+
+### Color Palette - Forest Stream Creative Flow
+```css
+--bio-primary: #2D5016      /* Forest green */
+--bio-secondary: #1B8B8B    /* Sea teal */
+--bio-accent: #D4A574       /* Warm earth */
+--bio-background: #F0F6F3   /* Soft mint */
+--bio-stream: #4DB8A8       /* Flowing water */
+--bio-moss: #4A5D2A         /* Forest moss */
+--bio-reflection: #7FD9D0   /* Water reflection */
 ```
 
 ### Typography
@@ -221,13 +311,98 @@ All shadows follow a consistent top-left light source:
 - **Sky**: For aspirational content
 - **Underground**: For technical deep-dives
 
+## 🎬 Immersive Background Scenes
+
+Each biome features a fully animated background scene that acts like a living screensaver behind the content:
+
+### Scene Components
+- **Continuous Animations**: Always-running background life
+- **Interactive Elements**: Subtle responses to user interaction
+- **Parallax Layers**: Multiple depth levels for immersion
+- **Performance Optimized**: GPU-accelerated animations
+- **Accessibility Aware**: Respects `prefers-reduced-motion`
+
+### Biome Transitions
+- **Smooth Crossfades**: 0.8s transition between biomes
+- **Color Morphing**: CSS variables update dynamically
+- **Context Awareness**: Automatic biome switching based on section
+- **Visual Indicator**: Bottom-right biome name display
+
+## 🔧 Technical Implementation
+
+### Architecture
+```
+BiomeProvider (Context)
+├── BiomeScene (Background)
+├── MainContent (Foreground)
+└── BiomeIndicator (UI)
+```
+
+### Key Files
+- `BiomeProvider.tsx` - Context management and transitions
+- `BiomeScenes.tsx` - All biome background animations
+- `biophilic-tokens.ts` - Multi-biome design system
+- `MainLayout.tsx` - Integration layer
+
+### Performance Features
+- **Lazy Scene Loading**: Only active biome renders
+- **GPU Acceleration**: Transform-based animations
+- **Memory Efficient**: Cleanup on biome changes
+- **Mobile Optimized**: Reduced complexity on smaller screens
+
+## 🎨 Design System Updates
+
+### Multi-Biome Tokens
+The design system now supports 5 complete biome definitions:
+```typescript
+export const biomeTokens = {
+  forest: { colors: {...}, mood: 'grounded, warm, ancient' },
+  sky: { colors: {...}, mood: 'peaceful, open, uplifting' },
+  sea: { colors: {...}, mood: 'tranquil, flowing, energetic' },
+  underground: { colors: {...}, mood: 'introspective, rich, mysterious' },
+  hybrid: { colors: {...}, mood: 'harmonious, creative, flowing' }
+};
+```
+
+### Dynamic CSS Variables
+Colors update automatically when biomes change:
+```css
+:root {
+  --bio-primary: /* Updates based on active biome */
+  --bio-secondary: /* Updates based on active biome */
+  /* ... all color tokens update dynamically */
+}
+```
+
+## 🚀 Usage Guide
+
+### Navigation Experience
+1. **About** (Forest) → Personal growth and foundation
+2. **Education** (Sky) → Elevated learning and aspirations  
+3. **Lessons** (Sea) → Flowing knowledge and teaching
+4. **Tools** (Underground) → Deep technical craftsmanship
+5. **Hobbies** (Hybrid) → Creative harmony of interests
+
+### Biome Transitions
+- Navigate between sections to experience biome changes
+- Watch the background scene crossfade smoothly
+- Notice how colors throughout the UI adapt
+- Observe the biome indicator in the bottom-right
+
+### Customization
+- Modify biome colors in `biophilic-tokens.ts`
+- Add new scenes in `BiomeScenes.tsx`
+- Adjust transition timing in `BiomeProvider.tsx`
+- Create seasonal variations by swapping color palettes
+
 ## Technical Stack
 
-- **Next.js 16**: React framework
-- **TypeScript**: Type safety
-- **Framer Motion**: Advanced animations
-- **CSS Custom Properties**: Design tokens
-- **Tailwind CSS**: Utility classes (extended with biophilic tokens)
+- **Next.js 16**: React framework with App Router
+- **TypeScript**: Full type safety across biome system
+- **Framer Motion**: Advanced scene animations and transitions
+- **React Context**: Biome state management
+- **CSS Custom Properties**: Dynamic color system
+- **Tailwind CSS**: Utility classes with biophilic extensions
 
 ## Resources
 

@@ -18,6 +18,7 @@ import {
   TreePine
 } from 'lucide-react';
 import { RustlingBranch } from './biophilic/ForestAnimations';
+import { useBiome } from './biophilic/BiomeProvider';
 
 interface NavItem {
   id: string;
@@ -114,6 +115,7 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ activeSection, onSectionChange }) => {
   const [expandedItems, setExpandedItems] = useState<Set<string>>(new Set());
+  const { biomeColors } = useBiome();
 
   const toggleExpanded = (itemId: string) => {
     const newExpanded = new Set(expandedItems);
@@ -254,11 +256,11 @@ const Sidebar: React.FC<SidebarProps> = ({ activeSection, onSectionChange }) => 
       className="fixed left-0 top-0 h-full w-80 z-50 overflow-hidden"
       style={{
         background: `linear-gradient(135deg, 
-          var(--bio-light-accent) 0%, 
-          var(--bio-background) 30%, 
-          var(--bio-light-accent) 100%)`,
+          ${biomeColors.lightAccent} 0%, 
+          ${biomeColors.background} 30%, 
+          ${biomeColors.lightAccent} 100%)`,
         boxShadow: 'var(--bio-shadow-strong)',
-        borderRight: `1px solid var(--bio-accent)`
+        borderRight: `1px solid ${biomeColors.accent}`
       }}
     >
       {/* Forest texture overlay */}
@@ -266,9 +268,9 @@ const Sidebar: React.FC<SidebarProps> = ({ activeSection, onSectionChange }) => 
         className="absolute inset-0 opacity-10"
         style={{
           backgroundImage: `
-            radial-gradient(circle at 20% 30%, var(--bio-moss) 2px, transparent 2px),
-            radial-gradient(circle at 80% 70%, var(--bio-trunk) 1px, transparent 1px),
-            radial-gradient(circle at 40% 80%, var(--bio-secondary) 1.5px, transparent 1.5px)
+            radial-gradient(circle at 20% 30%, ${biomeColors.secondary} 2px, transparent 2px),
+            radial-gradient(circle at 80% 70%, ${biomeColors.primary} 1px, transparent 1px),
+            radial-gradient(circle at 40% 80%, ${biomeColors.accent} 1.5px, transparent 1.5px)
           `,
           backgroundSize: '60px 60px, 40px 40px, 80px 80px'
         }}

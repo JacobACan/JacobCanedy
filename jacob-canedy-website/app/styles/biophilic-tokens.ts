@@ -1,29 +1,109 @@
-// Biophilic Design Tokens - Forest Biome
-export const biophilicTokens = {
-  // Forest - Earthy Tones Palette
-  colors: {
-    primary: '#2D5016',
-    secondary: '#8B6F47', 
-    accent: '#D4A574',
-    background: '#F5F1E8',
-    dark: '#1A1410',
-    lightAccent: '#E8DCC8',
-    highlight: '#C4A57B',
-    
-    // Extended palette for depth
-    canopy: '#1F3A0F',
-    trunk: '#654832',
-    moss: '#4A5D2A',
-    sunlight: '#F2E6B3',
-    shadow: 'rgba(26, 20, 16, 0.4)',
-    highlightGlow: 'rgba(232, 220, 200, 0.8)',
-    
-    // Semantic colors
-    success: '#4A5D2A',
-    warning: '#D4A574',
-    error: '#8B4A47',
-    info: '#6B7F5F'
+// Multi-Biome Biophilic Design Tokens
+export const biomeTokens = {
+  forest: {
+    name: 'Forest - Ancient Growth',
+    colors: {
+      primary: '#2D5016',
+      secondary: '#8B6F47', 
+      accent: '#D4A574',
+      background: '#F5F1E8',
+      dark: '#1A1410',
+      lightAccent: '#E8DCC8',
+      highlight: '#C4A57B',
+      canopy: '#1F3A0F',
+      trunk: '#654832',
+      moss: '#4A5D2A',
+      sunlight: '#F2E6B3',
+      shadow: 'rgba(26, 20, 16, 0.4)',
+      highlightGlow: 'rgba(232, 220, 200, 0.8)',
+    },
+    mood: 'grounded, warm, ancient'
   },
+  
+  sky: {
+    name: 'Sky - Open Horizons',
+    colors: {
+      primary: '#5B8DBE',
+      secondary: '#8FA8D4',
+      accent: '#E0B997',
+      background: '#F5F8FB',
+      dark: '#2C3E50',
+      lightAccent: '#E8EBF0',
+      highlight: '#D4DFE8',
+      clouds: '#FFFFFF',
+      horizon: '#B8C5D1',
+      wind: '#A8B8C8',
+      sunlight: '#F5E6A3',
+      shadow: 'rgba(44, 62, 80, 0.25)',
+      highlightGlow: 'rgba(232, 235, 240, 0.95)',
+    },
+    mood: 'peaceful, open, uplifting'
+  },
+  
+  sea: {
+    name: 'Sea - Flowing Depths',
+    colors: {
+      primary: '#0E5A6D',
+      secondary: '#1B8B8B',
+      accent: '#4DB8A8',
+      background: '#E0F2F1',
+      dark: '#051C2A',
+      lightAccent: '#B2E6E0',
+      highlight: '#7FD9D0',
+      coral: '#FF6B6B',
+      kelp: '#2E7D32',
+      bioluminescent: '#00E5FF',
+      sunlight: '#B3E5FC',
+      shadow: 'rgba(5, 28, 42, 0.45)',
+      highlightGlow: 'rgba(178, 230, 224, 0.85)',
+    },
+    mood: 'tranquil, flowing, energetic'
+  },
+  
+  underground: {
+    name: 'Underground - Crystal Depths',
+    colors: {
+      primary: '#3A3A45',
+      secondary: '#6B5B7F',
+      accent: '#A8856D',
+      background: '#E5E3EB',
+      dark: '#1A1820',
+      lightAccent: '#D4CDE5',
+      highlight: '#9B8BA8',
+      crystal: '#00D9A3',
+      mineral: '#8E44AD',
+      stone: '#5D4E75',
+      sunlight: '#E8F5E8',
+      shadow: 'rgba(26, 24, 32, 0.5)',
+      highlightGlow: 'rgba(127, 217, 196, 0.8)',
+    },
+    mood: 'introspective, rich, mysterious'
+  },
+  
+  hybrid: {
+    name: 'Forest Stream - Creative Flow',
+    colors: {
+      primary: '#2D5016', // Forest green
+      secondary: '#1B8B8B', // Sea teal
+      accent: '#D4A574', // Warm earth
+      background: '#F0F6F3', // Soft mint
+      dark: '#1A1410',
+      lightAccent: '#E0F0E8',
+      highlight: '#A8D4C8',
+      stream: '#4DB8A8',
+      moss: '#4A5D2A',
+      reflection: '#7FD9D0',
+      sunlight: '#F2E6B3',
+      shadow: 'rgba(26, 20, 16, 0.35)',
+      highlightGlow: 'rgba(168, 212, 200, 0.8)',
+    },
+    mood: 'harmonious, creative, flowing'
+  }
+};
+
+// Legacy support - default to forest
+export const biophilicTokens = {
+  colors: biomeTokens.forest.colors,
   
   // Shadows with realistic light source (top-left)
   shadows: {

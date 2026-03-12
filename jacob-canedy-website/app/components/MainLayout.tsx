@@ -9,13 +9,19 @@ import EducationSection from './sections/EducationSection';
 import LessonsSection from './sections/LessonsSection';
 import ToolsSection from './sections/ToolsSection';
 import HobbiesSection from './sections/HobbiesSection';
-import { ForestBackground, ParallaxContainer } from './biophilic/ForestAnimations';
+import { BiomeProvider, BiomeIndicator, useBiome } from './biophilic/BiomeProvider';
+import { ParallaxContainer } from './biophilic/ForestAnimations';
 
 type Section = 'about' | 'education' | 'lessons' | 'tools' | 'hobbies';
 
-const MainLayout: React.FC = () => {
-  const [activeSection, setActiveSection] = useState<Section>('about');
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+// Inner component that uses biome context
+const MainContent: React.FC<{
+  activeSection: Section;
+  setActiveSection: (section: Section) => void;
+  isMobileMenuOpen: boolean;
+  setIsMobileMenuOpen: (open: boolean) => void;
+}> = ({ activeSection, setActiveSection, isMobileMenuOpen, setIsMobileMenuOpen }) => {
+  const { biomeColors } = useBiome();
 
   const renderSection = () => {
     switch (activeSection) {
@@ -40,13 +46,7 @@ const MainLayout: React.FC = () => {
   };
 
   return (
-    <div 
-      className="min-h-screen relative overflow-hidden"
-      style={{ background: 'var(--bio-background)' }}
-    >
-      {/* Forest Background Animations */}
-      <ForestBackground />
-      
+    <div className="min-h-screen relative overflow-hidden">
       {/* Desktop Sidebar */}
       <div className="hidden lg:block">
         <Sidebar 
@@ -59,18 +59,18 @@ const MainLayout: React.FC = () => {
       <div 
         className="lg:hidden fixed top-0 left-0 right-0 z-50"
         style={{
-          background: `linear-gradient(135deg, var(--bio-light-accent), var(--bio-background))`,
+          background: `linear-gradient(135deg, ${biomeColors.lightAccent}, ${biomeColors.background})`,
           boxShadow: 'var(--bio-shadow-medium)',
-          borderBottom: `1px solid var(--bio-accent)`
+          borderBottom: `1px solid ${biomeColors.accent}`
         }}
       >
         <div className="flex items-center justify-between p-4">
           <div className="flex items-center space-x-2">
-            <TreePine size={24} style={{ color: 'var(--bio-primary)' }} />
+            <TreePine size={24} style={{ color: biomeColors.primary }} />
             <h1 
               className="text-xl font-bold"
               style={{ 
-                color: 'var(--bio-primary)',
+                color: biomeColors.primary,
                 fontFamily: 'var(--font-playfair), serif'
               }}
             >
@@ -81,8 +81,8 @@ const MainLayout: React.FC = () => {
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             className="p-2 rounded-xl transition-all duration-300"
             style={{
-              background: 'var(--bio-background)',
-              color: 'var(--bio-primary)',
+              background: biomeColors.background,
+              color: biomeColors.primary,
               boxShadow: 'var(--bio-shadow-soft)'
             }}
             whileHover={{ 
@@ -105,7 +105,7 @@ const MainLayout: React.FC = () => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               className="lg:hidden fixed inset-0 z-40"
-              style={{ background: 'rgba(26, 20, 16, 0.6)' }}
+              style={{ background: `${biomeColors.shadow}` }}
               onClick={() => setIsMobileMenuOpen(false)}
             />
             <motion.div
@@ -124,21 +124,8 @@ const MainLayout: React.FC = () => {
         )}
       </AnimatePresence>
 
-      {/* Main Content with Parallax */}
+      {/* Main Content */}
       <main className="lg:ml-80 min-h-screen pt-16 lg:pt-0 relative z-10">
-        <ParallaxContainer speed={0.1} className="absolute inset-0 pointer-events-none">
-          <div 
-            className="w-full h-full opacity-5"
-            style={{
-              backgroundImage: `
-                radial-gradient(circle at 25% 25%, var(--bio-moss) 2px, transparent 2px),
-                radial-gradient(circle at 75% 75%, var(--bio-trunk) 1px, transparent 1px)
-              `,
-              backgroundSize: '100px 100px, 150px 150px'
-            }}
-          />
-        </ParallaxContainer>
-        
         <div className="relative z-20 p-4 lg:p-8">
           <AnimatePresence mode="wait">
             <motion.div
@@ -147,7 +134,7 @@ const MainLayout: React.FC = () => {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -30, scale: 0.95 }}
               transition={{ 
-                duration: 0.6, 
+                duration: 0.8, 
                 ease: [0.4, 0, 0.2, 1]
               }}
             >
@@ -158,7 +145,27 @@ const MainLayout: React.FC = () => {
           </AnimatePresence>
         </div>
       </main>
+
+      {/* Biome Indicator */}
+      <BiomeIndicator />
     </div>
+  );
+};
+
+// Main Layout wrapper with BiomeProvider
+const MainLayout: React.FC = () => {
+  const [activeSection, setActiveSection] = useState<Section>('about');
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  return (
+    <BiomeProvider activeSection={activeSection}>
+      <MainContent
+        activeSection={activeSection}
+        setActiveSection={setActiveSection}
+        isMobileMenuOpen={isMobileMenuOpen}
+        setIsMobileMenuOpen={setIsMobileMenuOpen}
+      />
+    </BiomeProvider>
   );
 };
 
