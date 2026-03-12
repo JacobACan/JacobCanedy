@@ -5,17 +5,16 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { 
   User, 
   GraduationCap, 
-  BookOpen, 
   Wrench, 
   Heart,
   Music,
   Dumbbell,
-  ChevronDown,
   ChevronRight,
   Github,
   ExternalLink,
   Leaf,
-  TreePine
+  TreePine,
+  Briefcase
 } from 'lucide-react';
 import { RustlingBranch } from './biophilic/ForestAnimations';
 import { useBiome } from './biophilic/BiomeProvider';
@@ -44,22 +43,9 @@ const navigationItems: NavItem[] = [
   },
   {
     id: 'lessons',
-    label: 'Lessons',
-    icon: <BookOpen size={20} />,
-    subItems: [
-      {
-        id: 'lessons-music',
-        label: 'Music',
-        icon: <Music size={18} />,
-        href: '#lessons/music'
-      },
-      {
-        id: 'lessons-fitness',
-        label: 'Fitness',
-        icon: <Dumbbell size={18} />,
-        href: '#lessons/fitness'
-      }
-    ]
+    label: 'Work Experience',
+    icon: <Briefcase size={20} />,
+    href: '#work-experience'
   },
   {
     id: 'tools',
@@ -295,7 +281,6 @@ const Sidebar: React.FC<SidebarProps> = ({ activeSection, onSectionChange }) => 
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
               >
-                <TreePine size={28} style={{ color: 'var(--bio-primary)' }} />
                 <h1 
                   className="text-2xl font-bold"
                   style={{ 
@@ -307,29 +292,6 @@ const Sidebar: React.FC<SidebarProps> = ({ activeSection, onSectionChange }) => 
                 </h1>
               </motion.div>
             </RustlingBranch>
-            <motion.p 
-              className="text-base"
-              style={{ color: 'var(--bio-secondary)' }}
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
-            >
-              Developer & Musician
-            </motion.p>
-            <motion.div
-              className="flex items-center space-x-1 mt-2"
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.4 }}
-            >
-              <Leaf size={14} style={{ color: 'var(--bio-moss)' }} />
-              <span 
-                className="text-sm italic"
-                style={{ color: 'var(--bio-moss)' }}
-              >
-                Growing through code & sound
-              </span>
-            </motion.div>
           </div>
         </div>
 

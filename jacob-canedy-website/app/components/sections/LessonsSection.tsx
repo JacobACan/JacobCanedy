@@ -1,246 +1,417 @@
 'use client';
 
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Music, Dumbbell, Clock, Users, Star, BookOpen } from 'lucide-react';
+import React from 'react';
+import { motion } from 'framer-motion';
+import { Briefcase, Calendar, MapPin, Code, Waves, Droplets, Shell, Anchor } from 'lucide-react';
+import { useBiome } from '../biophilic/BiomeProvider';
+import { RustlingBranch } from '../biophilic/ForestAnimations';
 
-interface Lesson {
+interface WorkExperience {
   id: string;
-  title: string;
+  company: string;
+  role: string;
+  location: string;
+  startDate: string;
+  endDate: string;
   description: string;
-  duration: string;
-  level: 'Beginner' | 'Intermediate' | 'Advanced';
-  price: string;
-  features: string[];
+  highlights: string[];
 }
 
-const musicLessons: Lesson[] = [
+const workExperience: WorkExperience[] = [
   {
-    id: 'music-theory',
-    title: 'Music Theory Fundamentals',
-    description: 'Learn the building blocks of music including scales, chords, and harmony.',
-    duration: '60 minutes',
-    level: 'Beginner',
-    price: '$50/session',
-    features: [
-      'Scale construction and modes',
-      'Chord progressions and voice leading',
-      'Rhythm and time signatures',
-      'Ear training exercises'
+    id: 'best-buy',
+    company: 'Best Buy | Geek Squad',
+    role: 'Seasonal Home Theatre Installation Cadet',
+    location: 'Rochester, NY',
+    startDate: 'Nov 2025',
+    endDate: 'Jan 2026',
+    description: 'Provided seamless client experience by advising on product placement and recommendations regarding products, services, and content.',
+    highlights: [
+      'Advised clients on product placement and made recommendations for home theatre setup',
+      'Worked independently and as part of a two-person team',
+      'Managed inventory and vehicle maintenance in partnership with other agents'
     ]
   },
   {
-    id: 'composition',
-    title: 'Digital Music Composition',
-    description: 'Create your own music using modern digital audio workstations and techniques.',
-    duration: '90 minutes',
-    level: 'Intermediate',
-    price: '$75/session',
-    features: [
-      'DAW workflow and setup',
-      'MIDI programming and editing',
-      'Sound design and synthesis',
-      'Mixing and arrangement'
-    ]
-  },
-  {
-    id: 'production',
-    title: 'Advanced Music Production',
-    description: 'Master the art of professional music production and audio engineering.',
-    duration: '120 minutes',
-    level: 'Advanced',
-    price: '$100/session',
-    features: [
-      'Advanced mixing techniques',
-      'Mastering fundamentals',
-      'Studio acoustics',
-      'Professional workflow'
+    id: 'emerson',
+    company: 'Emerson',
+    role: 'Software Engineer Intern',
+    location: 'Elyria, OH',
+    startDate: 'Aug 2023',
+    endDate: 'Dec 2023 / May 2024 - Aug 2024',
+    description: 'Developed customer order tracking features for Ridgid/Greenlee.com using ASP.NET MVC, C#, SQL, and Vue.js.',
+    highlights: [
+      'Developed customer order tracking features for Ridgid/Greenlee.com using ASP.NET MVC, C#, SQL, and Vue.js',
+      'Engaged in pair programming with senior engineers on a cross-cultural team to debug and enhance system functionality',
+      'Expanded full-stack skills by implementing both back-end logic in SQL/C# and front-end UI using Vue and JavaScript/TypeScript',
+      'Presented project updates to senior engineers, demonstrating progress and technical problem-solving skills'
     ]
   }
 ];
 
-const fitnessLessons: Lesson[] = [
-  {
-    id: 'strength-basics',
-    title: 'Strength Training Basics',
-    description: 'Build a solid foundation with proper form and progressive overload principles.',
-    duration: '45 minutes',
-    level: 'Beginner',
-    price: '$40/session',
-    features: [
-      'Proper lifting technique',
-      'Program design basics',
-      'Safety and injury prevention',
-      'Nutrition fundamentals'
-    ]
-  },
-  {
-    id: 'functional-fitness',
-    title: 'Functional Fitness',
-    description: 'Develop real-world strength and mobility for daily activities.',
-    duration: '60 minutes',
-    level: 'Intermediate',
-    price: '$55/session',
-    features: [
-      'Movement pattern training',
-      'Mobility and flexibility',
-      'Bodyweight exercises',
-      'Sport-specific training'
-    ]
-  }
-];
+// Rising bubble decorative element
+const RisingBubble: React.FC<{ delay: number; left: string; size: number }> = ({ delay, left, size }) => (
+  <motion.div
+    className="absolute pointer-events-none"
+    style={{
+      left,
+      bottom: '-20px',
+      width: size,
+      height: size,
+      borderRadius: '50%',
+      border: `1px solid var(--bio-accent)`,
+      background: `radial-gradient(circle at 30% 30%, var(--bio-highlight-glow), transparent)`,
+    }}
+    animate={{
+      y: [0, -600],
+      x: [0, Math.sin(delay) * 30, 0],
+      opacity: [0, 0.5, 0.3, 0],
+      scale: [0.5, 1, 0.8],
+    }}
+    transition={{ duration: 8 + delay * 2, repeat: Infinity, delay: delay * 1.5, ease: 'easeOut' }}
+  />
+);
 
-type LessonCategory = 'music' | 'fitness';
+// Underwater current wave line
+const CurrentLine: React.FC<{ top: string; delay: number }> = ({ top, delay }) => (
+  <motion.div
+    className="absolute left-0 right-0 pointer-events-none"
+    style={{
+      top,
+      height: '2px',
+      background: `linear-gradient(90deg, transparent, var(--bio-accent), var(--bio-highlight), var(--bio-accent), transparent)`,
+      opacity: 0.15,
+      borderRadius: '50px',
+    }}
+    animate={{
+      x: ['-5%', '5%', '-5%'],
+      opacity: [0.1, 0.2, 0.1],
+    }}
+    transition={{ duration: 6, repeat: Infinity, delay, ease: 'easeInOut' }}
+  />
+);
 
 const LessonsSection: React.FC = () => {
-  const [activeCategory, setActiveCategory] = useState<LessonCategory>('music');
-
-  const getLevelColor = (level: string) => {
-    switch (level) {
-      case 'Beginner': return 'bg-green-100 text-green-800';
-      case 'Intermediate': return 'bg-yellow-100 text-yellow-800';
-      case 'Advanced': return 'bg-red-100 text-red-800';
-      default: return 'bg-gray-100 text-gray-800';
-    }
-  };
-
-  const currentLessons = activeCategory === 'music' ? musicLessons : fitnessLessons;
+  const { biomeColors } = useBiome();
 
   return (
     <motion.section
       initial={{ opacity: 0, y: 50 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6 }}
-      className="max-w-6xl mx-auto"
+      transition={{ duration: 0.8, ease: [0.4, 0, 0.2, 1] }}
+      className="max-w-5xl mx-auto relative overflow-visible"
     >
-      <div className="mb-8">
-        <motion.h1 
-          className="text-4xl font-bold text-gray-900 mb-4"
-          initial={{ opacity: 0, x: -30 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.2 }}
+      {/* Underwater atmospheric elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none -z-10" style={{ top: '-40px', bottom: '-40px', left: '-40px', right: '-40px' }}>
+        <RisingBubble delay={0} left="10%" size={12} />
+        <RisingBubble delay={1.5} left="30%" size={8} />
+        <RisingBubble delay={3} left="55%" size={14} />
+        <RisingBubble delay={2} left="75%" size={10} />
+        <RisingBubble delay={4} left="90%" size={6} />
+        <CurrentLine top="20%" delay={0} />
+        <CurrentLine top="50%" delay={2} />
+        <CurrentLine top="80%" delay={4} />
+      </div>
+
+      {/* Organic header with sea elements */}
+      <div className="mb-16 relative">
+        {/* Overlapping wave decoration */}
+        <motion.div
+          className="absolute -top-6 -right-4 z-10 pointer-events-none"
+          animate={{ rotate: [0, 8, -8, 0], y: [0, -5, 0] }}
+          transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
         >
-          Lessons & Coaching
-        </motion.h1>
-        <motion.div 
-          className="w-24 h-1 bg-blue-600 rounded"
+          <Waves size={64} style={{ color: biomeColors.accent, opacity: 0.15 }} />
+        </motion.div>
+
+        <motion.div
+          className="flex items-center space-x-4 mb-6"
+          initial={{ opacity: 0, x: -50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.2, duration: 0.6 }}
+        >
+          <RustlingBranch>
+            <motion.div
+              className="relative"
+              animate={{ y: [0, -3, 0] }}
+              transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut' }}
+            >
+              <Briefcase
+                size={40}
+                style={{ color: biomeColors.primary }}
+              />
+              <motion.div
+                className="absolute -top-2 -right-2 w-3 h-3 rounded-full"
+                style={{ background: biomeColors.accent }}
+                animate={{ scale: [1, 1.4, 1], opacity: [0.6, 1, 0.6] }}
+                transition={{ duration: 2.5, repeat: Infinity }}
+              />
+            </motion.div>
+          </RustlingBranch>
+          <h1
+            className="text-5xl font-bold"
+            style={{
+              color: biomeColors.primary,
+              fontFamily: 'var(--font-playfair), serif'
+            }}
+          >
+            Work Experience
+          </h1>
+        </motion.div>
+
+        {/* Organic animated underline - wave-like */}
+        <motion.div
+          className="relative"
           initial={{ width: 0 }}
-          animate={{ width: 96 }}
-          transition={{ delay: 0.4, duration: 0.6 }}
+          animate={{ width: '10rem' }}
+          transition={{ delay: 0.4, duration: 0.8, ease: 'easeOut' }}
+          style={{
+            height: '4px',
+            background: `linear-gradient(90deg, ${biomeColors.primary}, ${biomeColors.accent}, ${biomeColors.highlight})`,
+            borderRadius: '2px',
+            boxShadow: `0 2px 8px ${biomeColors.shadow}`
+          }}
         />
       </div>
 
-      {/* Category Tabs */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.3 }}
-        className="flex space-x-4 mb-8"
-      >
-        <button
-          onClick={() => setActiveCategory('music')}
-          className={`flex items-center space-x-2 px-6 py-3 rounded-lg font-medium transition-all ${
-            activeCategory === 'music'
-              ? 'bg-blue-600 text-white shadow-lg'
-              : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-          }`}
-        >
-          <Music size={20} />
-          <span>Music Lessons</span>
-        </button>
-        <button
-          onClick={() => setActiveCategory('fitness')}
-          className={`flex items-center space-x-2 px-6 py-3 rounded-lg font-medium transition-all ${
-            activeCategory === 'fitness'
-              ? 'bg-blue-600 text-white shadow-lg'
-              : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-          }`}
-        >
-          <Dumbbell size={20} />
-          <span>Fitness Coaching</span>
-        </button>
-      </motion.div>
-
-      {/* Lessons Grid */}
-      <AnimatePresence mode="wait">
+      {/* Work Experience - flowing underwater timeline */}
+      <div className="relative space-y-20">
+        {/* Flowing vertical current line */}
         <motion.div
-          key={activeCategory}
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: -20 }}
-          transition={{ duration: 0.3 }}
-          className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
-        >
-          {currentLessons.map((lesson, index) => (
+          className="absolute left-8 top-0 bottom-0 w-0.5 hidden md:block"
+          style={{
+            background: `linear-gradient(to bottom, transparent, ${biomeColors.accent}, ${biomeColors.primary}, ${biomeColors.accent}, transparent)`,
+            borderRadius: '50px',
+          }}
+          initial={{ scaleY: 0 }}
+          animate={{ scaleY: 1 }}
+          transition={{ duration: 1.5, delay: 0.6, ease: 'easeOut' }}
+        />
+
+        {/* Bioluminescent particles along the timeline */}
+        {[0, 1, 2, 3].map((i) => (
+          <motion.div
+            key={`glow-${i}`}
+            className="absolute left-6 w-4 h-4 rounded-full hidden md:block pointer-events-none"
+            style={{
+              top: `${15 + i * 25}%`,
+              background: `radial-gradient(circle, ${biomeColors.accent}, transparent)`,
+              filter: 'blur(3px)',
+            }}
+            animate={{
+              opacity: [0.2, 0.7, 0.2],
+              scale: [0.8, 1.3, 0.8],
+            }}
+            transition={{ duration: 3, repeat: Infinity, delay: i * 0.8 }}
+          />
+        ))}
+
+        {workExperience.map((job, index) => (
+          <motion.div
+            key={job.id}
+            initial={{ opacity: 0, x: index % 2 === 0 ? -40 : 40 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.4 + index * 0.3, duration: 0.8, ease: [0.4, 0, 0.2, 1] }}
+            className="relative md:pl-20"
+          >
+            {/* Timeline node - organic coral-like shape */}
             <motion.div
-              key={lesson.id}
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
-              className="bg-white rounded-lg shadow-lg border border-gray-100 p-6 hover:shadow-xl transition-shadow"
+              className="absolute left-4 top-6 w-9 h-9 hidden md:flex items-center justify-center z-10"
+              style={{
+                background: `linear-gradient(135deg, ${biomeColors.primary}, ${biomeColors.accent})`,
+                borderRadius: '50% 30% 60% 40%',
+                boxShadow: `0 0 20px ${biomeColors.shadow}, 0 0 30px ${biomeColors.highlightGlow}`
+              }}
+              animate={{ rotate: [0, 8, -8, 0] }}
+              transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
             >
-              <div className="flex items-start justify-between mb-4">
-                <h3 className="text-xl font-semibold text-gray-900">{lesson.title}</h3>
-                <span className={`px-2 py-1 rounded-full text-xs font-medium ${getLevelColor(lesson.level)}`}>
-                  {lesson.level}
-                </span>
-              </div>
-
-              <p className="text-gray-700 mb-4 leading-relaxed">{lesson.description}</p>
-
-              <div className="flex items-center justify-between mb-4 text-sm text-gray-600">
-                <div className="flex items-center">
-                  <Clock size={16} className="mr-1" />
-                  <span>{lesson.duration}</span>
-                </div>
-                <div className="text-lg font-semibold text-blue-600">{lesson.price}</div>
-              </div>
-
-              <div className="mb-6">
-                <h4 className="font-medium text-gray-900 mb-2 flex items-center">
-                  <BookOpen size={16} className="mr-1" />
-                  What You'll Learn
-                </h4>
-                <ul className="space-y-1">
-                  {lesson.features.map((feature, featureIndex) => (
-                    <li key={featureIndex} className="text-sm text-gray-700 flex items-start">
-                      <Star size={12} className="text-yellow-500 mr-2 mt-1 flex-shrink-0" />
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <button className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors font-medium">
-                Book Session
-              </button>
+              <Anchor size={16} style={{ color: biomeColors.background }} />
             </motion.div>
-          ))}
-        </motion.div>
-      </AnimatePresence>
 
-      {/* Contact Information */}
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.6 }}
-        className="mt-12 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg p-6 border border-blue-100"
-      >
-        <div className="flex items-center mb-3">
-          <Users className="text-blue-600 mr-2" size={24} />
-          <h3 className="text-xl font-semibold text-gray-900">Ready to Start Learning?</h3>
-        </div>
-        <p className="text-gray-700 leading-relaxed mb-4">
-          Whether you're looking to dive into music production or improve your fitness, 
-          I'm here to help you achieve your goals with personalized instruction and proven methods.
-        </p>
-        <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-4">
-          <button className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors font-medium mb-2 sm:mb-0">
-            Schedule Consultation
-          </button>
-          <span className="text-gray-600">Free 15-minute discovery call available</span>
-        </div>
-      </motion.div>
+            {/* Main content - organic flowing shape */}
+            <div className="relative">
+              {/* Overlapping shell decoration that partially covers content */}
+              <motion.div
+                className="absolute -top-8 right-8 z-20 pointer-events-none"
+                animate={{ rotate: [0, 5, -3, 0], y: [0, -4, 0] }}
+                transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
+              >
+                <Shell size={36} style={{ color: biomeColors.accent, opacity: 0.25 }} />
+              </motion.div>
+
+              {/* Overlapping bubble cluster */}
+              <motion.div
+                className="absolute -left-4 top-1/3 z-20 pointer-events-none"
+                animate={{ y: [0, -8, 0], x: [0, 3, 0] }}
+                transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut', delay: index * 0.5 }}
+              >
+                <Droplets size={24} style={{ color: biomeColors.highlight, opacity: 0.3 }} />
+              </motion.div>
+
+              {/* Content area - organic shape */}
+              <div
+                className="relative p-8 md:p-10"
+                style={{
+                  background: `linear-gradient(${index % 2 === 0 ? '145deg' : '165deg'}, ${biomeColors.background}ee, ${biomeColors.lightAccent}dd, ${biomeColors.background}cc)`,
+                  borderRadius: index % 2 === 0
+                    ? '2rem 3rem 2.5rem 1.5rem'
+                    : '3rem 2rem 1.5rem 2.5rem',
+                  boxShadow: `4px 8px 32px ${biomeColors.shadow}`,
+                  border: `1px solid ${biomeColors.accent}35`,
+                  backdropFilter: 'blur(8px)',
+                }}
+              >
+                {/* Subtle underwater texture */}
+                <div
+                  className="absolute inset-0 opacity-5 pointer-events-none"
+                  style={{
+                    backgroundImage: `radial-gradient(ellipse at 30% 50%, ${biomeColors.accent} 1px, transparent 1px), radial-gradient(ellipse at 70% 30%, ${biomeColors.primary} 1px, transparent 1px)`,
+                    backgroundSize: '45px 45px, 55px 55px',
+                    borderRadius: 'inherit',
+                  }}
+                />
+
+                <div className="relative z-10">
+                  {/* Company name */}
+                  <h3
+                    className="text-2xl md:text-3xl font-bold mb-1"
+                    style={{
+                      color: biomeColors.primary,
+                      fontFamily: 'var(--font-playfair), serif'
+                    }}
+                  >
+                    {job.company}
+                  </h3>
+
+                  {/* Role */}
+                  <h4
+                    className="text-lg font-medium mb-4"
+                    style={{ color: biomeColors.secondary || biomeColors.dark }}
+                  >
+                    {job.role}
+                  </h4>
+
+                  {/* Meta info - organic pill shapes */}
+                  <div className="flex flex-wrap gap-3 mb-6">
+                    <motion.div
+                      className="flex items-center space-x-2 px-4 py-2"
+                      style={{
+                        background: `${biomeColors.primary}15`,
+                        borderRadius: '1rem 0.75rem 1.25rem 0.5rem',
+                        border: `1px solid ${biomeColors.primary}25`,
+                        color: biomeColors.primary,
+                      }}
+                      whileHover={{ scale: 1.03 }}
+                    >
+                      <Calendar size={16} />
+                      <span className="text-sm font-medium">{job.startDate} - {job.endDate}</span>
+                    </motion.div>
+
+                    <motion.div
+                      className="flex items-center space-x-2 px-4 py-2"
+                      style={{
+                        background: `${biomeColors.accent}20`,
+                        borderRadius: '0.75rem 1.25rem 0.5rem 1rem',
+                        border: `1px solid ${biomeColors.accent}30`,
+                        color: biomeColors.dark,
+                      }}
+                      whileHover={{ scale: 1.03 }}
+                    >
+                      <MapPin size={16} />
+                      <span className="text-sm font-medium">{job.location}</span>
+                    </motion.div>
+                  </div>
+
+                  {/* Description */}
+                  <p
+                    className="text-base leading-relaxed mb-8 max-w-2xl"
+                    style={{ color: biomeColors.dark }}
+                  >
+                    {job.description}
+                  </p>
+
+                  {/* Highlights - flowing list */}
+                  {job.highlights && job.highlights.length > 0 && (
+                    <div className="relative">
+                      {/* Overlapping wave accent */}
+                      <motion.div
+                        className="absolute -right-6 top-0 pointer-events-none z-20"
+                        animate={{ x: [0, 5, 0], rotate: [0, -5, 0] }}
+                        transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+                      >
+                        <Waves size={20} style={{ color: biomeColors.accent, opacity: 0.3 }} />
+                      </motion.div>
+
+                      <div className="flex items-center space-x-3 mb-4">
+                        <motion.div
+                          className="flex items-center justify-center w-8 h-8"
+                          style={{
+                            background: `linear-gradient(135deg, ${biomeColors.accent}30, ${biomeColors.highlight}40)`,
+                            borderRadius: '50% 30% 60% 40%',
+                          }}
+                          animate={{ rotate: [0, 5, -5, 0] }}
+                          transition={{ duration: 5, repeat: Infinity }}
+                        >
+                          <Code size={18} style={{ color: biomeColors.primary }} />
+                        </motion.div>
+                        <h5
+                          className="font-semibold text-lg"
+                          style={{
+                            color: biomeColors.primary,
+                            fontFamily: 'var(--font-playfair), serif'
+                          }}
+                        >
+                          Key Contributions
+                        </h5>
+                      </div>
+
+                      <div className="space-y-3 ml-4">
+                        {job.highlights.map((highlight, highlightIndex) => (
+                          <motion.div
+                            key={highlightIndex}
+                            initial={{ opacity: 0, x: -20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ delay: 0.8 + index * 0.2 + highlightIndex * 0.1 }}
+                            className="flex items-start space-x-3"
+                          >
+                            {/* Organic coral-like bullet */}
+                            <motion.div
+                              className="w-2.5 h-2.5 mt-2 flex-shrink-0"
+                              style={{
+                                background: `linear-gradient(135deg, ${biomeColors.primary}, ${biomeColors.accent})`,
+                                borderRadius: '50% 30% 60% 40%',
+                              }}
+                              animate={{ scale: [1, 1.2, 1] }}
+                              transition={{ duration: 3, repeat: Infinity, delay: highlightIndex * 0.4 }}
+                            />
+                            <span
+                              className="text-base leading-relaxed"
+                              style={{ color: biomeColors.dark }}
+                            >
+                              {highlight}
+                            </span>
+                          </motion.div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Overlapping current streak at bottom */}
+              <motion.div
+                className="absolute -bottom-3 left-16 right-16 h-0.5 pointer-events-none z-20"
+                style={{
+                  background: `linear-gradient(90deg, transparent, ${biomeColors.accent}50, ${biomeColors.highlight}40, transparent)`,
+                  borderRadius: '50px',
+                }}
+                animate={{ opacity: [0.2, 0.5, 0.2], x: ['-2%', '2%', '-2%'] }}
+                transition={{ duration: 5, repeat: Infinity }}
+              />
+            </div>
+          </motion.div>
+        ))}
+      </div>
     </motion.section>
   );
 };
