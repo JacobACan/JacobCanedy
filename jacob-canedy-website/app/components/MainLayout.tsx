@@ -77,7 +77,7 @@ export default function MainLayout() {
               color: 'rgba(245,240,232,.55)',
             }}
           >
-            Developer &middot; Musician &middot; {personal.location}
+            Developer &middot; Musician
           </div>
         </div>
       </header>
