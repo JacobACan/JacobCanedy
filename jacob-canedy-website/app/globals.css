@@ -1,175 +1,205 @@
 @import "tailwindcss";
 
-/* Biophilic Design System - Forest Biome */
+/* ============================================================
+   WES Design System — Wrightwood Education Studio
+   Warm, editorial, handcrafted aesthetic
+   ============================================================ */
+
 :root {
-  /* Forest - Earthy Tones Palette */
-  --bio-primary: #2D5016;
-  --bio-secondary: #8B6F47;
-  --bio-accent: #D4A574;
-  --bio-background: #F5F1E8;
-  --bio-dark: #1A1410;
-  --bio-light-accent: #E8DCC8;
-  --bio-highlight: #C4A57B;
-  --bio-canopy: #1F3A0F;
-  --bio-trunk: #654832;
-  --bio-moss: #4A5D2A;
-  --bio-sunlight: #F2E6B3;
-  --bio-shadow: rgba(26, 20, 16, 0.4);
-  --bio-highlight-glow: rgba(232, 220, 200, 0.8);
-  
-  /* Realistic shadows with light source */
-  --bio-shadow-soft: 2px 4px 12px rgba(26, 20, 16, 0.15);
-  --bio-shadow-medium: 4px 8px 24px rgba(26, 20, 16, 0.25);
-  --bio-shadow-strong: 8px 16px 48px rgba(26, 20, 16, 0.35);
-  --bio-shadow-inner: inset 2px 2px 8px rgba(26, 20, 16, 0.2);
-  --bio-shadow-glow: 0 0 20px rgba(232, 220, 200, 0.6);
-  
-  /* Legacy support */
-  --background: var(--bio-background);
-  --foreground: var(--bio-dark);
+  --cream:       #F5F0E8;
+  --cream-dark:  #EDE6D8;
+  --ink:         #1C1A14;
+  --ink-mid:     #3A3629;
+  --ink-light:   #6B6558;
+  --forest:      #2E4A35;
+  --forest-mid:  #3D6147;
+  --forest-light:#5C8463;
+  --pine:        #1D3128;
+  --amber:       #C28040;
+  --amber-light: #D9A05A;
+  --amber-pale:  #F0D9B0;
+  --stone:       #8B8578;
+  --stone-light: #B8B2A8;
+  --rust:        #8C4A2E;
+  --dusty-rose:  #C4937A;
+  --charcoal:    #2A2822;
 }
 
 @theme inline {
-  --color-background: var(--bio-background);
-  --color-foreground: var(--bio-dark);
-  --font-sans: var(--font-inter), system-ui, sans-serif;
-  --font-serif: var(--font-playfair), serif;
+  --color-background: var(--cream);
+  --color-foreground: var(--ink);
+  --font-serif: var(--font-playfair), Georgia, serif;
+  --font-sans: var(--font-dm-sans), system-ui, sans-serif;
 }
 
-/* Disable dark mode for biophilic design */
-@media (prefers-color-scheme: dark) {
-  :root {
-    /* Keep light forest theme even in dark mode */
-    --background: var(--bio-background);
-    --foreground: var(--bio-dark);
-  }
-}
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
-  background: var(--bio-background);
-  color: var(--bio-dark);
-  font-family: var(--font-inter), system-ui, sans-serif;
-  line-height: 1.5;
+  background: var(--cream);
+  color: var(--ink);
+  font-family: var(--font-dm-sans), system-ui, sans-serif;
+  font-weight: 300;
+  line-height: 1.7;
+  font-size: 15px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Biophilic base styles */
-* {
-  box-sizing: border-box;
+/* Force light theme */
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: light;
+  }
 }
 
-/* Organic scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
+/* ============================================================
+   Scrollbar
+   ============================================================ */
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--cream-dark); }
+::-webkit-scrollbar-thumb { background: var(--stone-light); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--stone); }
+
+/* ============================================================
+   Typography
+   ============================================================ */
+
+h1, h2, h3 {
+  font-family: var(--font-playfair), Georgia, serif;
 }
 
-::-webkit-scrollbar-track {
-  background: var(--bio-light-accent);
-  border-radius: 4px;
+/* ============================================================
+   Paper / Film Grain Texture (subtle background)
+   ============================================================ */
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  background-image:
+    repeating-linear-gradient(
+      88deg,
+      transparent,
+      transparent 2px,
+      rgba(90,70,40,.02) 2px,
+      rgba(90,70,40,.02) 4px
+    ),
+    repeating-linear-gradient(
+      92deg,
+      transparent,
+      transparent 3px,
+      rgba(60,50,30,.015) 3px,
+      rgba(60,50,30,.015) 6px
+    );
 }
 
-::-webkit-scrollbar-thumb {
-  background: var(--bio-secondary);
-  border-radius: 4px;
-  transition: background 0.3s ease;
+/* ============================================================
+   Section entrance animation
+   ============================================================ */
+
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: var(--bio-primary);
+.section-enter {
+  animation: fade-in-up 0.6s ease-out both;
 }
 
-/* Reduced motion support */
+/* ============================================================
+   Stop-Motion Margin Animations
+   8–10fps via steps() — handmade, unhurried, warm
+   ============================================================ */
+
+/* Leaf fall — gentle tumble with rotation */
+@keyframes margin-leaf-fall {
+  0%   { transform: translate(0, -8vh) rotate(0deg);    opacity: 0; }
+  8%   { transform: translate(0, -8vh) rotate(0deg);    opacity: 0.7; }
+  15%  { transform: translate(6px, 10vh) rotate(25deg);  opacity: 0.7; }
+  25%  { transform: translate(-4px, 24vh) rotate(55deg); opacity: 0.65; }
+  35%  { transform: translate(8px, 38vh) rotate(80deg);  opacity: 0.6; }
+  45%  { transform: translate(-6px, 52vh) rotate(115deg); opacity: 0.55; }
+  55%  { transform: translate(5px, 64vh) rotate(145deg); opacity: 0.5; }
+  65%  { transform: translate(-3px, 76vh) rotate(175deg); opacity: 0.4; }
+  78%  { transform: translate(4px, 88vh) rotate(200deg); opacity: 0.25; }
+  90%  { transform: translate(-2px, 98vh) rotate(220deg); opacity: 0.1; }
+  100% { transform: translate(0, 108vh) rotate(240deg);  opacity: 0; }
+}
+
+/* Dust mote float — slow upward drift */
+@keyframes margin-mote-float {
+  0%   { transform: translate(0, 0);       opacity: 0; }
+  10%  { transform: translate(2px, -5vh);  opacity: 0.4; }
+  25%  { transform: translate(-3px, -14vh); opacity: 0.55; }
+  40%  { transform: translate(4px, -24vh);  opacity: 0.5; }
+  55%  { transform: translate(-2px, -34vh); opacity: 0.45; }
+  70%  { transform: translate(3px, -44vh);  opacity: 0.35; }
+  85%  { transform: translate(-1px, -54vh); opacity: 0.2; }
+  100% { transform: translate(2px, -64vh);  opacity: 0; }
+}
+
+/* Musical note — gentle sway and rise */
+@keyframes margin-note-drift {
+  0%   { transform: translate(0, 0) rotate(0deg);       opacity: 0; }
+  10%  { transform: translate(0, -3vh) rotate(0deg);     opacity: 0.5; }
+  20%  { transform: translate(6px, -10vh) rotate(8deg);  opacity: 0.55; }
+  35%  { transform: translate(-4px, -22vh) rotate(-6deg); opacity: 0.5; }
+  50%  { transform: translate(5px, -34vh) rotate(10deg);  opacity: 0.45; }
+  65%  { transform: translate(-6px, -46vh) rotate(-8deg); opacity: 0.35; }
+  80%  { transform: translate(3px, -58vh) rotate(5deg);   opacity: 0.2; }
+  100% { transform: translate(-2px, -70vh) rotate(0deg);  opacity: 0; }
+}
+
+/* Pine needle — slow tumble fall */
+@keyframes margin-needle-fall {
+  0%   { transform: translate(0, -5vh) rotate(0deg);     opacity: 0; }
+  8%   { transform: translate(0, -5vh) rotate(0deg);     opacity: 0.5; }
+  20%  { transform: translate(8px, 15vh) rotate(40deg);   opacity: 0.5; }
+  35%  { transform: translate(-5px, 32vh) rotate(95deg);  opacity: 0.45; }
+  50%  { transform: translate(6px, 50vh) rotate(160deg);  opacity: 0.4; }
+  65%  { transform: translate(-4px, 66vh) rotate(220deg); opacity: 0.3; }
+  80%  { transform: translate(3px, 82vh) rotate(280deg);  opacity: 0.2; }
+  92%  { transform: translate(-2px, 96vh) rotate(330deg); opacity: 0.08; }
+  100% { transform: translate(0, 108vh) rotate(360deg);   opacity: 0; }
+}
+
+/* Animation classes — all use steps() for stop-motion choppiness */
+.margin-leaf {
+  animation: margin-leaf-fall 18s steps(10) infinite;
+  position: absolute;
+  pointer-events: none;
+}
+
+.margin-mote {
+  animation: margin-mote-float 14s steps(8) infinite;
+  position: absolute;
+  pointer-events: none;
+}
+
+.margin-note {
+  animation: margin-note-drift 16s steps(8) infinite;
+  position: absolute;
+  pointer-events: none;
+  bottom: 10%;
+}
+
+.margin-needle {
+  animation: margin-needle-fall 24s steps(10) infinite;
+  position: absolute;
+  pointer-events: none;
+}
+
+/* ============================================================
+   Reduced Motion
+   ============================================================ */
+
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
+  *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
 }
-
-/* Biophilic animation keyframes */
-@keyframes fallingLeaves {
-  0% {
-    transform: translateY(-100vh) rotate(0deg);
-    opacity: 0;
-  }
-  10% {
-    opacity: 1;
-  }
-  90% {
-    opacity: 1;
-  }
-  100% {
-    transform: translateY(100vh) rotate(360deg);
-    opacity: 0;
-  }
-}
-
-@keyframes birdsFlying {
-  0% {
-    transform: translateX(-100px) translateY(0px);
-  }
-  25% {
-    transform: translateX(25vw) translateY(-20px);
-  }
-  50% {
-    transform: translateX(50vw) translateY(-10px);
-  }
-  75% {
-    transform: translateX(75vw) translateY(-30px);
-  }
-  100% {
-    transform: translateX(calc(100vw + 100px)) translateY(-15px);
-  }
-}
-
-@keyframes lightRays {
-  0%, 100% {
-    opacity: 0.3;
-  }
-  50% {
-    opacity: 0.7;
-  }
-}
-
-@keyframes branchRustle {
-  0%, 100% {
-    transform: rotate(0deg);
-  }
-  25% {
-    transform: rotate(1deg);
-  }
-  75% {
-    transform: rotate(-1deg);
-  }
-}
-
-@keyframes gentleFloat {
-  0%, 100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-}
-
-/* Utility classes for biophilic design */
-.bio-shadow-soft { box-shadow: var(--bio-shadow-soft); }
-.bio-shadow-medium { box-shadow: var(--bio-shadow-medium); }
-.bio-shadow-strong { box-shadow: var(--bio-shadow-strong); }
-.bio-shadow-inner { box-shadow: var(--bio-shadow-inner); }
-.bio-shadow-glow { box-shadow: var(--bio-shadow-glow); }
-
-.bio-text-primary { color: var(--bio-primary); }
-.bio-text-secondary { color: var(--bio-secondary); }
-.bio-text-accent { color: var(--bio-accent); }
-.bio-text-dark { color: var(--bio-dark); }
-
-.bio-bg-primary { background-color: var(--bio-primary); }
-.bio-bg-secondary { background-color: var(--bio-secondary); }
-.bio-bg-accent { background-color: var(--bio-accent); }
-.bio-bg-background { background-color: var(--bio-background); }
-.bio-bg-light-accent { background-color: var(--bio-light-accent); }

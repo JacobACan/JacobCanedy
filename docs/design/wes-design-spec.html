@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WES Design Spec — Wrightwood Education Studio</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream:       #F5F0E8;
+    --cream-dark:  #EDE6D8;
+    --ink:         #1C1A14;
+    --ink-mid:     #3A3629;
+    --ink-light:   #6B6558;
+    --forest:      #2E4A35;
+    --forest-mid:  #3D6147;
+    --forest-light:#5C8463;
+    --pine:        #1D3128;
+    --amber:       #C28040;
+    --amber-light: #D9A05A;
+    --amber-pale:  #F0D9B0;
+    --stone:       #8B8578;
+    --stone-light: #B8B2A8;
+    --rust:        #8C4A2E;
+    --dusty-rose:  #C4937A;
+    --charcoal:    #2A2822;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    font-size: 15px;
+  }
+
+  /* ── COVER ── */
+  .cover {
+    background: var(--pine);
+    color: var(--cream);
+    padding: 80px 60px 60px;
+    position: relative;
+    overflow: hidden;
+  }
+  .cover::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-image:
+      radial-gradient(ellipse 60% 40% at 80% 30%, rgba(194,128,64,.18) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 60% at 20% 80%, rgba(46,74,53,.4) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .cover-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: .25em;
+    text-transform: uppercase;
+    color: var(--amber-light);
+    margin-bottom: 32px;
+    position: relative;
+  }
+  .cover h1 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(36px, 5vw, 60px);
+    font-weight: 400;
+    line-height: 1.1;
+    letter-spacing: -.01em;
+    position: relative;
+    margin-bottom: 8px;
+  }
+  .cover h1 em {
+    font-style: italic;
+    color: var(--amber-light);
+  }
+  .cover-sub {
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: .08em;
+    color: rgba(245,240,232,.55);
+    margin-top: 20px;
+    position: relative;
+  }
+  .cover-rule {
+    width: 48px;
+    height: 1px;
+    background: var(--amber);
+    margin: 28px 0;
+    position: relative;
+  }
+
+  /* ── LAYOUT ── */
+  .page {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 40px 80px;
+  }
+
+  /* ── SECTIONS ── */
+  .section {
+    margin-top: 72px;
+  }
+  .section-label {
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: .3em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 12px;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 400;
+    line-height: 1.2;
+    color: var(--ink);
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 0.5px solid var(--stone-light);
+  }
+  .section-title em { font-style: italic; color: var(--forest-mid); }
+  p {
+    color: var(--ink-mid);
+    margin-bottom: 14px;
+    max-width: 660px;
+  }
+  p strong { font-weight: 500; color: var(--ink); }
+
+  /* ── COLOR PALETTE ── */
+  .palette-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 16px;
+    margin-top: 28px;
+  }
+  .swatch {
+    border-radius: 6px;
+    overflow: hidden;
+    border: 0.5px solid rgba(0,0,0,.08);
+  }
+  .swatch-color {
+    height: 80px;
+    display: flex;
+    align-items: flex-end;
+    padding: 10px 12px;
+  }
+  .swatch-hex {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: .05em;
+    font-family: 'DM Sans', monospace;
+    mix-blend-mode: difference;
+    color: #fff;
+    opacity: .75;
+  }
+  .swatch-info {
+    background: var(--cream-dark);
+    padding: 10px 12px;
+  }
+  .swatch-name {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 2px;
+  }
+  .swatch-role {
+    font-size: 10px;
+    color: var(--ink-light);
+    line-height: 1.4;
+  }
+
+  /* ── TYPOGRAPHY ── */
+  .type-specimen {
+    background: var(--cream-dark);
+    border-radius: 8px;
+    padding: 28px 32px;
+    margin-bottom: 18px;
+  }
+  .type-meta {
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: .25em;
+    text-transform: uppercase;
+    color: var(--stone);
+    margin-bottom: 10px;
+  }
+  .type-display {
+    font-family: 'Playfair Display', serif;
+    font-size: 44px;
+    font-weight: 400;
+    color: var(--ink);
+    line-height: 1.05;
+  }
+  .type-display-italic {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-style: italic;
+    font-weight: 400;
+    color: var(--forest-mid);
+    line-height: 1.1;
+  }
+  .type-subhead {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--ink);
+    font-style: italic;
+  }
+  .type-caps {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: .3em;
+    text-transform: uppercase;
+    color: var(--amber);
+  }
+  .type-body {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 300;
+    color: var(--ink-mid);
+    line-height: 1.75;
+  }
+  .type-details {
+    margin-top: 12px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 24px;
+  }
+  .type-detail {
+    font-size: 10px;
+    color: var(--stone);
+  }
+  .type-detail strong { color: var(--ink-light); font-weight: 500; }
+
+  /* ── TEXTURE CARDS ── */
+  .texture-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    margin-top: 24px;
+  }
+  .texture-card {
+    border-radius: 8px;
+    overflow: hidden;
+    border: 0.5px solid rgba(0,0,0,.08);
+  }
+  .texture-visual {
+    height: 120px;
+    position: relative;
+  }
+  .texture-body {
+    padding: 14px 16px;
+    background: var(--cream-dark);
+  }
+  .texture-name {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+  .texture-desc {
+    font-size: 10px;
+    color: var(--ink-light);
+    line-height: 1.5;
+  }
+
+  /* ── TEXTURE PATTERNS ── */
+  .tex-grain {
+    background: var(--cream);
+    background-image:
+      repeating-linear-gradient(
+        88deg,
+        transparent,
+        transparent 2px,
+        rgba(90,70,40,.03) 2px,
+        rgba(90,70,40,.03) 4px
+      ),
+      repeating-linear-gradient(
+        92deg,
+        transparent,
+        transparent 3px,
+        rgba(60,50,30,.02) 3px,
+        rgba(60,50,30,.02) 6px
+      );
+  }
+  .tex-wood {
+    background-color: #C8A878;
+    background-image:
+      repeating-linear-gradient(
+        80deg,
+        transparent,
+        transparent 6px,
+        rgba(150,90,40,.12) 6px,
+        rgba(150,90,40,.12) 8px
+      ),
+      repeating-linear-gradient(
+        78deg,
+        transparent,
+        transparent 20px,
+        rgba(120,70,30,.07) 20px,
+        rgba(120,70,30,.07) 22px
+      );
+  }
+  .tex-photo-overlay {
+    background: linear-gradient(
+      160deg,
+      rgba(194,128,64,.22) 0%,
+      transparent 45%,
+      rgba(46,74,53,.18) 100%
+    );
+    background-color: #b8a88e;
+  }
+  .tex-mountain {
+    background: linear-gradient(
+      180deg,
+      #8BA89A 0%,
+      #6B8878 35%,
+      #4A6858 60%,
+      #D4C4A8 60%,
+      #BFB298 100%
+    );
+  }
+  .tex-handcraft {
+    background: var(--amber-pale);
+    background-image:
+      radial-gradient(circle at 20% 30%, rgba(140,74,46,.06) 0%, transparent 50%),
+      radial-gradient(circle at 80% 70%, rgba(46,74,53,.05) 0%, transparent 50%);
+    position: relative;
+  }
+  .tex-handcraft::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: repeating-conic-gradient(
+      rgba(120,80,40,.04) 0deg 1deg,
+      transparent 1deg 5deg
+    );
+  }
+
+  /* ── OVERLAY DIAGRAM ── */
+  .overlay-demo {
+    background: var(--ink);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 24px;
+    position: relative;
+    min-height: 280px;
+  }
+  .overlay-layer {
+    position: absolute;
+    inset: 0;
+  }
+  .overlay-photo-sim {
+    background: linear-gradient(135deg, #6B5840 0%, #3D4A38 50%, #7A6850 100%);
+  }
+  .overlay-amber-wash {
+    background: rgba(194,128,64,.35);
+    mix-blend-mode: multiply;
+  }
+  .overlay-vignette {
+    background: radial-gradient(ellipse 90% 90% at 50% 50%, transparent 40%, rgba(0,0,0,.5) 100%);
+  }
+  .overlay-text-demo {
+    position: relative;
+    z-index: 10;
+    padding: 48px 40px;
+  }
+  .overlay-text-demo .label {
+    font-size: 9px;
+    letter-spacing: .3em;
+    text-transform: uppercase;
+    color: var(--amber-light);
+    font-weight: 500;
+    margin-bottom: 12px;
+  }
+  .overlay-text-demo h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 38px;
+    color: var(--cream);
+    font-weight: 400;
+    line-height: 1.1;
+  }
+  .overlay-text-demo h2 em {
+    font-style: italic;
+    color: var(--amber-light);
+  }
+  .overlay-legend {
+    position: relative;
+    z-index: 10;
+    padding: 0 40px 32px;
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .overlay-tag {
+    font-size: 10px;
+    font-weight: 400;
+    color: rgba(245,240,232,.6);
+    background: rgba(255,255,255,.1);
+    border: 0.5px solid rgba(255,255,255,.2);
+    padding: 4px 10px;
+    border-radius: 20px;
+  }
+
+  /* ── STOP MOTION ── */
+  .motion-feel-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 24px;
+  }
+  @media (max-width: 600px) {
+    .motion-feel-grid { grid-template-columns: 1fr; }
+    .cover { padding: 48px 28px 40px; }
+    .page { padding: 0 20px 60px; }
+  }
+  .motion-card {
+    background: var(--cream-dark);
+    border-radius: 8px;
+    padding: 20px 22px;
+    border-left: 3px solid var(--forest-mid);
+  }
+  .motion-card.amber { border-left-color: var(--amber); }
+  .motion-card.rust { border-left-color: var(--rust); }
+  .motion-card.stone { border-left-color: var(--stone); }
+  .motion-card-title {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 6px;
+    letter-spacing: .04em;
+  }
+  .motion-card-desc {
+    font-size: 12px;
+    color: var(--ink-light);
+    line-height: 1.6;
+  }
+
+  /* ── RULES TABLE ── */
+  .rules-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-size: 13px;
+  }
+  .rules-table th {
+    text-align: left;
+    padding: 10px 14px;
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--stone);
+    border-bottom: 1px solid var(--stone-light);
+  }
+  .rules-table td {
+    padding: 12px 14px;
+    vertical-align: top;
+    border-bottom: 0.5px solid var(--cream-dark);
+    color: var(--ink-mid);
+  }
+  .rules-table td:first-child {
+    font-weight: 500;
+    color: var(--ink);
+    width: 30%;
+    white-space: nowrap;
+  }
+  .rules-table tr:last-child td { border-bottom: none; }
+
+  /* ── CONFIDENCE TAGS ── */
+  .badge {
+    display: inline-block;
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: 20px;
+    margin-left: 6px;
+    vertical-align: middle;
+  }
+  .badge-confirmed {
+    background: rgba(46,74,53,.12);
+    color: var(--forest);
+  }
+  .badge-inferred {
+    background: rgba(194,128,64,.15);
+    color: var(--rust);
+  }
+
+  /* ── DESIGN PRINCIPLES ── */
+  .principle-row {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 16px;
+    align-items: flex-start;
+  }
+  .principle-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+    font-style: italic;
+    color: var(--amber-pale);
+    line-height: 1;
+    flex-shrink: 0;
+    width: 40px;
+  }
+  .principle-content {}
+  .principle-title {
+    font-weight: 500;
+    font-size: 14px;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+  .principle-body {
+    font-size: 13px;
+    color: var(--ink-light);
+    line-height: 1.6;
+    max-width: 580px;
+    margin: 0;
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    margin-top: 72px;
+    padding: 28px 0;
+    border-top: 0.5px solid var(--stone-light);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .footer-left {
+    font-family: 'Playfair Display', serif;
+    font-size: 14px;
+    font-style: italic;
+    color: var(--ink-light);
+  }
+  .footer-right {
+    font-size: 10px;
+    color: var(--stone);
+    letter-spacing: .1em;
+  }
+  .attribution-block {
+    background: var(--cream-dark);
+    border-radius: 8px;
+    padding: 28px 32px;
+    margin-top: 48px;
+    border-left: 3px solid var(--amber);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  @media (max-width: 600px) { .attribution-block { grid-template-columns: 1fr; } }
+  .attr-group-label {
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: .28em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 8px;
+  }
+  .attr-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--ink);
+    line-height: 1.2;
+    margin-bottom: 4px;
+  }
+  .attr-name em { font-style: italic; color: var(--forest-mid); }
+  .attr-role {
+    font-size: 12px;
+    color: var(--ink-light);
+    line-height: 1.5;
+  }
+  .attr-divider {
+    width: 100%;
+    grid-column: 1 / -1;
+    height: 0.5px;
+    background: var(--stone-light);
+    margin: 4px 0;
+  }
+  .attr-spec-line {
+    grid-column: 1 / -1;
+    font-size: 11px;
+    color: var(--stone);
+    line-height: 1.6;
+  }
+  .attr-spec-line strong { color: var(--ink-mid); font-weight: 500; }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="cover-label">Visual Identity Spec Document</div>
+  <h1>Wrightwood<br>Education<br><em>Studio</em></h1>
+  <div class="cover-rule"></div>
+  <div class="cover-sub">FONTS · COLORS · TEXTURES · OVERLAYS · STOP MOTION FEEL &nbsp;·&nbsp; WES, for short.</div>
+  <div style="margin-top:32px; font-size:10px; color:rgba(245,240,232,.38); letter-spacing:.06em; line-height:1.7; position:relative;">
+    Brand by <span style="color:rgba(245,240,232,.65);">Dylann &amp; Kris Sveen</span> &nbsp;/&nbsp; Wrightwood Education Studio<br>
+    Spec compiled by <span style="color:rgba(245,240,232,.65);">Claude Sonnet 4.6</span> &nbsp;·&nbsp; Explored by <span style="color:rgba(245,240,232,.65);">Jacob Canedy</span>
+  </div>
+</div>
+
+<div class="page">
+
+  <!-- INTRO -->
+  <div class="section">
+    <div class="section-label">Overview</div>
+    <div class="section-title">Brand Personality at a Glance</div>
+    <p>WES occupies a warm, handcrafted space between <strong>artisan studio</strong> and <strong>mountain community school</strong>. Their visual identity avoids corporate polish — it feels like something made by people who also make guitars by hand and photograph their students in natural light. The aesthetic is warm, editorial, slightly literary, and rooted in the physical textures of Wrightwood, California.</p>
+    <p>The site lives on Squarespace and uses a clean, editorial template with generous whitespace. Every design choice reinforces the same message: <em>creativity is personal, tactile, and worth taking seriously.</em></p>
+    <p style="font-size:11px; color:var(--stone); margin-top:18px;">
+      Confidence indicators used throughout: 
+      <span class="badge badge-confirmed">Confirmed</span> = directly observed from site/source &nbsp;
+      <span class="badge badge-inferred">Inferred</span> = derived from brand aesthetic, photography, and closely related properties
+    </p>
+  </div>
+
+  <!-- TYPOGRAPHY -->
+  <div class="section">
+    <div class="section-label">01 — Typography</div>
+    <div class="section-title">Fonts &amp; Type Hierarchy</div>
+
+    <div class="type-specimen">
+      <div class="type-meta">Display / Heading — H1 Hero Stack <span class="badge badge-confirmed">Confirmed</span></div>
+      <div class="type-display">Wrightwood<br>Education<br>Studio</div>
+      <div class="type-details">
+        <div class="type-detail"><strong>Family:</strong> Playfair Display (or similar editorial serif)</div>
+        <div class="type-detail"><strong>Weight:</strong> Regular 400</div>
+        <div class="type-detail"><strong>Usage:</strong> Hero headlines, stacked line-by-line for visual weight</div>
+        <div class="type-detail"><strong>Size:</strong> ~48–64px at desktop</div>
+      </div>
+    </div>
+
+    <div class="type-specimen">
+      <div class="type-meta">Tagline / Italic Sub-header <span class="badge badge-confirmed">Confirmed</span></div>
+      <div class="type-display-italic">*Welcome to* &nbsp;/&nbsp; *WES, for short.*</div>
+      <div class="type-details">
+        <div class="type-detail"><strong>Family:</strong> Serif italic (same family as display)</div>
+        <div class="type-detail"><strong>Weight:</strong> Italic 400</div>
+        <div class="type-detail"><strong>Color:</strong> Forest green or muted sage on light backgrounds</div>
+        <div class="type-detail"><strong>Usage:</strong> Intro phrases, captions, pull-quotes, section openers</div>
+      </div>
+    </div>
+
+    <div class="type-specimen">
+      <div class="type-meta">Section Heading / Bold Italic <span class="badge badge-confirmed">Confirmed</span></div>
+      <div class="type-subhead">What parents & students are saying</div>
+      <div class="type-details">
+        <div class="type-detail"><strong>Family:</strong> Serif bold italic</div>
+        <div class="type-detail"><strong>Weight:</strong> Bold Italic 700i</div>
+        <div class="type-detail"><strong>Size:</strong> ~22–28px</div>
+        <div class="type-detail"><strong>Usage:</strong> H3 sub-sections, testimonial intros</div>
+      </div>
+    </div>
+
+    <div class="type-specimen">
+      <div class="type-meta">Label / Nav / CTA <span class="badge badge-confirmed">Confirmed</span></div>
+      <div class="type-caps">Sign Up &nbsp;·&nbsp; About Us &nbsp;·&nbsp; WES</div>
+      <div class="type-details">
+        <div class="type-detail"><strong>Family:</strong> Sans-serif (DM Sans or similar clean grotesque)</div>
+        <div class="type-detail"><strong>Weight:</strong> Medium 500</div>
+        <div class="type-detail"><strong>Transform:</strong> All-caps with expanded tracking (~0.2–0.3em)</div>
+        <div class="type-detail"><strong>Usage:</strong> Nav links, CTAs, eyebrow labels, bylines</div>
+      </div>
+    </div>
+
+    <div class="type-specimen">
+      <div class="type-meta">Body Copy <span class="badge badge-confirmed">Confirmed</span></div>
+      <div class="type-body">Led and taught by Dylann & Kris Sveen, who have fifteen years experience teaching elementary to collegiate music classes and private lessons, Wrightwood Education Studio is passionate about helping students develop an appreciation and love for music.</div>
+      <div class="type-details">
+        <div class="type-detail"><strong>Family:</strong> Clean sans-serif (DM Sans, or Squarespace's body default)</div>
+        <div class="type-detail"><strong>Weight:</strong> Light 300</div>
+        <div class="type-detail"><strong>Size:</strong> 15–17px</div>
+        <div class="type-detail"><strong>Line height:</strong> ~1.75 — intentionally airy</div>
+      </div>
+    </div>
+
+    <p style="margin-top:24px;">The type system pairs <strong>editorial serif elegance</strong> (for display and emotion) with <strong>clean sans-serif utility</strong> (for navigation and function). Italic styling carries special weight — it signals warmth, voice, and personality throughout the brand.</p>
+  </div>
+
+  <!-- COLORS -->
+  <div class="section">
+    <div class="section-label">02 — Color</div>
+    <div class="section-title">Palette &amp; Color Intent</div>
+    <p>The palette is rooted in the natural landscape of Wrightwood — pine forests, mountain stone, warm studio wood, and golden afternoon light. There are no corporate blues, no bright primaries. Everything is earthy, desaturated, and warm.</p>
+
+    <div class="palette-grid">
+
+      <div class="swatch">
+        <div class="swatch-color" style="background:#F5F0E8;"><span class="swatch-hex" style="color:#8B8578;">#F5F0E8</span></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Parchment Cream</div>
+          <div class="swatch-role">Primary background — warm white with aged paper undertone</div>
+        </div>
+      </div>
+
+      <div class="swatch">
+        <div class="swatch-color" style="background:#1C1A14;"><span class="swatch-hex">#1C1A14</span></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Carbon Ink</div>
+          <div class="swatch-role">Primary text color — warm black, never pure #000</div>
+        </div>
+      </div>
+
+      <div class="swatch">
+        <div class="swatch-color" style="background:#2E4A35;"><span class="swatch-hex">#2E4A35</span></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Pine Forest</div>
+          <div class="swatch-role">Brand accent — deep Wrightwood forest; used for italic type, borders, accents</div>
+        </div>
+      </div>
+
+      <div class="swatch">
+        <div class="swatch-color" style="background:#1D3128;"><span class="swatch-hex">#1D3128</span></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Deep Pine</div>
+          <div class="swatch-role">Dark sections, hero backgrounds; feels like a mountain evening</div>
+        </div>
+      </div>
+
+      <div class="swatch">
+        <div class="swatch-color" style="background:#C28040;"><span class="swatch-hex">#C28040</span></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Warm Amber</div>
+          <div class="swatch-role">Highlight / warmth accent — warm studio lighting, wood grain, aged maple</div>
+        </div>
+      </div>
+
+      <div class="swatch">
+        <div class="swatch-color" style="background:#F0D9B0;"><span class="swatch-hex">#F0D9B0</span></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Honey Wash</div>
+          <div class="swatch-role">Soft amber tint used as image overlay washes and section fills</div>
+        </div>
+      </div>
+
+      <div class="swatch">
+        <div class="swatch-color" style="background:#8B8578;"><span class="swatch-hex">#8B8578</span></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Mountain Stone</div>
+          <div class="swatch-role">Secondary text, captions, muted UI elements — granite undertone</div>
+        </div>
+      </div>
+
+      <div class="swatch">
+        <div class="swatch-color" style="background:#8C4A2E;"><span class="swatch-hex">#8C4A2E</span></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Rust Cedar</div>
+          <div class="swatch-role">Warm red-brown; appears in wood grain and earthy photography tones</div>
+        </div>
+      </div>
+
+    </div>
+
+    <table class="rules-table" style="margin-top:32px;">
+      <tr><th>Principle</th><th>Notes</th></tr>
+      <tr><td>No pure white</td><td>Backgrounds always carry a cream or amber undertone. Pure white would feel clinical against the natural aesthetic.</td></tr>
+      <tr><td>No cool grays</td><td>All neutral grays skew warm — toward stone and sand, never toward blue or cool ash.</td></tr>
+      <tr><td>Text on dark: cream, not white</td><td>Light text on dark backgrounds uses the cream palette entry (#F5F0E8), maintaining warmth.</td></tr>
+      <tr><td>Green is accent, not primary</td><td>Forest green appears as a secondary accent (italic type, rule lines, subtle borders) — it does not dominate.</td></tr>
+      <tr><td>Amber is light and warmth</td><td>Amber plays the role of "spotlight" — it signals warmth, creativity, and human energy.</td></tr>
+    </table>
+  </div>
+
+  <!-- TEXTURES -->
+  <div class="section">
+    <div class="section-label">03 — Textures</div>
+    <div class="section-title">Surface Textures &amp; Material Language</div>
+    <p>WES's texture language is rooted in the handmade: wood grain from instrument-building, paper grain from arts education, and the soft grain of natural photography. Textures are never decorative for their own sake — they carry material meaning.</p>
+
+    <div class="texture-grid">
+      <div class="texture-card">
+        <div class="texture-visual tex-grain"></div>
+        <div class="texture-body">
+          <div class="texture-name">Paper / Film Grain <span class="badge badge-inferred">Inferred</span></div>
+          <div class="texture-desc">Subtle noise texture underlying cream backgrounds. Evokes aged paper, physical ephemera, handwritten notes.</div>
+        </div>
+      </div>
+
+      <div class="texture-card">
+        <div class="texture-visual tex-wood"></div>
+        <div class="texture-body">
+          <div class="texture-name">Wood Grain <span class="badge badge-confirmed">Confirmed</span></div>
+          <div class="texture-desc">Appears in instrument photography, studio imagery, and guitar-making contexts. Kris Sveen's woodworking is integral to the brand DNA.</div>
+        </div>
+      </div>
+
+      <div class="texture-card">
+        <div class="texture-visual tex-mountain"></div>
+        <div class="texture-body">
+          <div class="texture-name">Mountain Gradient <span class="badge badge-confirmed">Confirmed</span></div>
+          <div class="texture-desc">Photography backdrop of pine-covered mountain terrain. Forest greens and stone beiges appear throughout photography as natural color grounding.</div>
+        </div>
+      </div>
+
+      <div class="texture-card">
+        <div class="texture-visual tex-photo-overlay"></div>
+        <div class="texture-body">
+          <div class="texture-name">Photo Color Wash <span class="badge badge-inferred">Inferred</span></div>
+          <div class="texture-desc">Warm amber and forest-green toning washes over photography, applied subtly via editorial color grading in Lightroom or similar. Unifies diverse photographic content.</div>
+        </div>
+      </div>
+
+      <div class="texture-card">
+        <div class="texture-visual tex-handcraft"></div>
+        <div class="texture-body">
+          <div class="texture-name">Handcraft Warmth <span class="badge badge-inferred">Inferred</span></div>
+          <div class="texture-desc">The general warmth of cream + amber creates a "handmade" ambient texture — as though the page itself were printed on warm card stock.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- OVERLAYS -->
+  <div class="section">
+    <div class="section-label">04 — Texture Overlays</div>
+    <div class="section-title">How Textures Layer on Each Other</div>
+    <p>WES doesn't layer textures graphically (no heavy composite effects) — instead, overlays happen naturally through photography, section color, and the tonal harmony between warm neutrals. Here's how the layers stack:</p>
+
+    <div class="overlay-demo">
+      <div class="overlay-layer overlay-photo-sim"></div>
+      <div class="overlay-layer overlay-amber-wash"></div>
+      <div class="overlay-layer overlay-vignette"></div>
+      <div class="overlay-text-demo">
+        <div class="label">Layer System Demo</div>
+        <h2>The Madrone Room<br><em>Studio</em></h2>
+      </div>
+      <div class="overlay-legend">
+        <div class="overlay-tag">Layer 1 — Natural Photography</div>
+        <div class="overlay-tag">Layer 2 — Amber Color Wash ~35% opacity</div>
+        <div class="overlay-tag">Layer 3 — Vignette / Darkening</div>
+        <div class="overlay-tag">Layer 4 — Cream + Serif Type</div>
+      </div>
+    </div>
+
+    <table class="rules-table" style="margin-top:24px;">
+      <tr><th>Layer</th><th>What it is</th><th>Purpose</th></tr>
+      <tr>
+        <td>Base: Photography</td>
+        <td>Natural documentary-style photography with warm studio lighting</td>
+        <td>Grounds the brand in real, physical place and people</td>
+      </tr>
+      <tr>
+        <td>Mid: Color Wash</td>
+        <td>Amber or forest green semi-transparent tint (~20–40% opacity)</td>
+        <td>Unifies photography into the brand palette; prevents jarring image contrast</td>
+      </tr>
+      <tr>
+        <td>Mid: Vignette</td>
+        <td>Radial darkening toward edges (subtle)</td>
+        <td>Draws focus inward; gives images a film/editorial quality</td>
+      </tr>
+      <tr>
+        <td>Top: Cream Background</td>
+        <td>Warm cream (#F5F0E8) sections between image blocks</td>
+        <td>Provides breathing room; the "paper" the brand is printed on</td>
+      </tr>
+      <tr>
+        <td>Top: Type</td>
+        <td>Serif and italic typography floated over sections and images</td>
+        <td>Text feels handwritten or typeset — not digital default</td>
+      </tr>
+    </table>
+
+    <p style="margin-top:20px;">The overall approach is <strong>additive warmth</strong> — each layer adds a degree of golden or forest-toned saturation, so the final composition never looks raw or digital. Nothing is high-contrast for shock value. Images feel as though they've been lightly aged by mountain light.</p>
+  </div>
+
+  <!-- STOP MOTION -->
+  <div class="section">
+    <div class="section-label">05 — Motion</div>
+    <div class="section-title">Stop Motion Animation Feel <span class="badge badge-inferred">Inferred</span></div>
+    <p>WES's educational arts context and the sensibility of their broader creative brand — handmade guitars, documentary photography, intimate studio spaces — strongly suggest a specific stop motion aesthetic when animation is employed. Based on their creative ethos:</p>
+
+    <div class="motion-feel-grid">
+      <div class="motion-card">
+        <div class="motion-card-title">Frame Rate &amp; Rhythm</div>
+        <div class="motion-card-desc">Likely operates at 8–12fps rather than silky 24fps. The slight "choppiness" is intentional — it reads as handmade, not as a technical limitation. Each frame feels considered.</div>
+      </div>
+      <div class="motion-card amber">
+        <div class="motion-card-title">Physical Materials</div>
+        <div class="motion-card-desc">Objects animate on warm surfaces — wood, paper, fabric. Paper cutouts, physical instruments, leaves, sheet music, and natural objects are the likely props.</div>
+      </div>
+      <div class="motion-card rust">
+        <div class="motion-card-title">Lighting Warmth</div>
+        <div class="motion-card-desc">Studio lighting casts warm amber side-light across objects, creating short soft shadows. The palette of each scene mirrors the brand: cream backgrounds, warm subjects, forest-toned props.</div>
+      </div>
+      <div class="motion-card stone">
+        <div class="motion-card-title">Texture on Screen</div>
+        <div class="motion-card-desc">Physical textures read in motion — the grain of wood, the bend of paper, the soft focus edge of depth of field. Nothing is overly clean. The world in frame breathes.</div>
+      </div>
+      <div class="motion-card">
+        <div class="motion-card-title">Camera Treatment</div>
+        <div class="motion-card-desc">Fixed overhead or slight angle. Shallow depth of field softens backgrounds. The camera doesn't move — only the subjects do. Feels intimate, like a crafting table being observed.</div>
+      </div>
+      <div class="motion-card amber">
+        <div class="motion-card-title">Pacing &amp; Mood</div>
+        <div class="motion-card-desc">Unhurried. Not anxious or attention-grabbing. The animation teaches or reveals — it opens something slowly, like turning a page. Accompanied by acoustic or ambient sound.</div>
+      </div>
+      <div class="motion-card rust">
+        <div class="motion-card-title">Typography Integration</div>
+        <div class="motion-card-desc">Letters may be physical — cut paper, rubber stamps, chalk on board — rather than digitally overlaid. When digital, type uses the brand serif and fades in rather than slides.</div>
+      </div>
+      <div class="motion-card stone">
+        <div class="motion-card-title">Narrative Arc</div>
+        <div class="motion-card-desc">Small, personal stories. A guitar being assembled, musical notes arranging themselves, seasons changing in a mountain landscape. Scale is intimate; emotion is the point.</div>
+      </div>
+    </div>
+
+    <p style="margin-top:28px;">The closest reference aesthetic would be something between <strong>Wes Anderson's symmetrical warmth</strong> and the handcrafted intimacy of a <strong>Nick Cave &amp; Sons or The Burrowers short</strong> — careful, warm, slightly nostalgic, and deeply tactile. Not slick. Not ironic. Earnest and made-by-hand.</p>
+  </div>
+
+  <!-- DESIGN PRINCIPLES -->
+  <div class="section">
+    <div class="section-label">06 — Design Principles</div>
+    <div class="section-title">Core Visual Rules</div>
+
+    <div class="principle-row">
+      <div class="principle-num">1</div>
+      <div class="principle-content">
+        <div class="principle-title">Warmth over polish</div>
+        <p class="principle-body">Every design decision favors warmth and humanity over technical perfection. A slightly imperfect serif headline is preferred over a crisp geometric one. Images are warm, not neutral.</p>
+      </div>
+    </div>
+    <div class="principle-row">
+      <div class="principle-num">2</div>
+      <div class="principle-content">
+        <div class="principle-title">Italic signals emotion</div>
+        <p class="principle-body">Italic type carries the emotional weight of the brand — it's how WES "speaks" in text. Italic phrases open sections, quote voices, and give the brand its personality. Never omit them.</p>
+      </div>
+    </div>
+    <div class="principle-row">
+      <div class="principle-num">3</div>
+      <div class="principle-content">
+        <div class="principle-title">Photography IS the design</div>
+        <p class="principle-body">Layout gives way to photography. Generous full-width images are the primary design element. The typography and cream sections exist to frame photography, not compete with it.</p>
+      </div>
+    </div>
+    <div class="principle-row">
+      <div class="principle-num">4</div>
+      <div class="principle-content">
+        <div class="principle-title">Mountain place as identity</div>
+        <p class="principle-body">Wrightwood, California — a small mountain community — is inseparable from the brand. The colors, textures, and imagery all refer back to that specific place: its pines, stone, and sky.</p>
+      </div>
+    </div>
+    <div class="principle-row">
+      <div class="principle-num">5</div>
+      <div class="principle-content">
+        <div class="principle-title">Handmade objects as visual vocabulary</div>
+        <p class="principle-body">Guitars, woodwork, instruments, and handcrafted goods are recurring visual motifs. They anchor the brand in physical making and signal that creativity here means building real things.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ATTRIBUTION -->
+  <div class="attribution-block">
+    <div>
+      <div class="attr-group-label">Brand Designed By</div>
+      <div class="attr-name">Dylann &amp; <em>Kris Sveen</em></div>
+      <div class="attr-role">Founders &amp; Creative Directors, Wrightwood Education Studio<br>Music educators, photographers, guitar makers, and visual storytellers behind the WES identity.</div>
+    </div>
+    <div>
+      <div class="attr-group-label">Related Creative Work</div>
+      <div class="attr-name"><em>Mood Guitars</em></div>
+      <div class="attr-role">Co-owned by Dylann &amp; Kris Sveen. Handmade guitars designed and built in Wrightwood, CA. A parallel brand sharing the same warm, handcrafted visual language.</div>
+    </div>
+    <div class="attr-divider"></div>
+    <div class="attr-spec-line">
+      <strong>This spec document</strong> was compiled and designed by <strong>Claude Sonnet 4.6</strong> (Anthropic) &nbsp;·&nbsp;
+      Explored and commissioned by <strong>Jacob Canedy</strong> &nbsp;·&nbsp;
+      Sourced from keyboardart.com, moodguitars.com, and publicly available WES materials &nbsp;·&nbsp;
+      March 2026. All brand identity, photography, and creative direction is the original work of Dylann &amp; Kris Sveen / Wrightwood Education Studio LLC.
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer-left">Wrightwood Education Studio — WES</div>
+    <div class="footer-right">Spec by Claude Sonnet 4.6 &nbsp;·&nbsp; Explored by Jacob Canedy &nbsp;·&nbsp; March 2026</div>
+  </div>
+
+</div>
+</body>
+</html>
