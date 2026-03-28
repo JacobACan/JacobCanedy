@@ -12,31 +12,6 @@ export const personal = {
     'Currently pursuing a Master\'s in AI while building tools that blend creativity with technology.',
 };
 
-export const skills = {
-  languages: ['C#', 'TypeScript', 'SQL', 'JavaScript'],
-  frameworks: ['Next.js', 'React', 'Vue.js', 'ASP.NET MVC'],
-  specialties: ['Agentic Programming', 'Audio Plugins', 'UI/UX Design'],
-};
-
-export const interests = [
-  {
-    title: 'Full-Stack Development',
-    description: 'Building web applications with .NET, Vue, and React',
-  },
-  {
-    title: 'Audio Engineering',
-    description: 'Developing audio plugins and music production tools',
-  },
-  {
-    title: 'Fitness & Wellness',
-    description: 'Physical health and helping others achieve fitness goals',
-  },
-  {
-    title: 'Continuous Learning',
-    description: 'AI-driven development and Agentic Programming',
-  },
-];
-
 export interface EducationEntry {
   institution: string;
   degree: string;
