@@ -144,6 +144,15 @@ export const projects: Project[] = [
     demo: 'https://vinceshorter.com',
   },
   {
+    name: 'Positive Direction LLC',
+    language: 'WordPress',
+    description:
+      'A WordPress site for a career coaching and professional development firm, built with Elementor and Astra theme.',
+    features: ['Career coaching platform', 'Service showcase', 'Client engagement'],
+    tech: ['WordPress', 'Elementor', 'Astra', 'Domain/Hosting'],
+    demo: 'https://positivedirectionllc.com',
+  },
+  {
     name: '7.1.4 Binauralization',
     language: 'Audio',
     description:
